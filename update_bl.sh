@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo /home/pi/blacklists.py
+sudo "$HOME/blocklists.py"
 sudo service dnsmasq restart

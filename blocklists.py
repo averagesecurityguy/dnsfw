@@ -6,9 +6,9 @@ import re
 
 # Constants
 TEMP_FILE = "/tmp/master.list"
-PERM_FILE = "/opt/blacklists/master.list"
-WL_FILE = "whitelist.list"
-BL_FILE = "blacklist.urls"
+PERM_FILE = "/opt/blocklists/master.list"
+WL_FILE = "allowlist.list"
+BL_FILE = "blocklist.urls"
 
 # Globals
 ip_re = re.compile(r'^[0-9.]+$')
@@ -32,7 +32,7 @@ def write(domains):
 
 
 def clean(domains):
-    whitelist = load_file(WL_FILE)
+    allowlist = load_file(WL_FILE)
     new = []
 
     for domain in domains:
@@ -55,8 +55,8 @@ def clean(domains):
         parts.reverse()
         domain = parts[0]
 
-        # Remove whitelisted domains
-        if domain in whitelist:
+        # Remove allowlisted domains
+        if domain in allowlist:
             continue
 
         if domain != "" and domain != "localhost":
@@ -67,7 +67,7 @@ def clean(domains):
 
 def main():
     # Get file list
-    urls = load_file(BLURL_FILE)
+    urls = load_file(BL_FILE)
 
     # Download, clean, and unique domains.
     for url in urls:
@@ -79,7 +79,7 @@ def main():
         domains = resp.content.split("\n")
         write('\n'.join(clean(domains)))
 
-    # Move the master.list from /tmp to /opt/blacklists
+    # Move the master.list from /tmp to /opt/blocklists
     os.rename(TEMP_FILE, PERM_FILE)
 
 if __name__ == '__main__':
