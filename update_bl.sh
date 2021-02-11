@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo "$HOME/blocklists.py"
+sudo "$HOME/dnsfw/blocklists.py"
 sudo service dnsmasq restart
